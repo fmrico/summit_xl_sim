@@ -63,7 +63,12 @@ def read_params(ld : launch.LaunchDescription):
         'controllers_file': controllers_file,
     }
 
-def get_robot_description(params):
+def generate_launch_description():
+
+    ld = launch.LaunchDescription()
+
+    params = read_params(ld)
+
     config_file_rewritten = RewrittenYaml(
         source_file=params['controllers_file'],
         param_rewrites={},
@@ -86,17 +91,6 @@ def get_robot_description(params):
     # Create parameter
     robot_description_param = launch_ros.descriptions.ParameterValue(robot_description_content, value_type=str)
 
-    return robot_description_param, config_file_rewritten
-
-
-def generate_launch_description():
-
-    ld = launch.LaunchDescription()
-
-    params = read_params(ld)
-
-    robot_description_param, config_controllers = get_robot_description(params)
-
     robot_state_publisher = launch_ros.actions.Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -110,16 +104,6 @@ def generate_launch_description():
         }],
     )
 
-    robot_description = {"robot_description": robot_description_param}
-
-    controller_manager = launch_ros.actions.Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[robot_description, config_controllers],
-        output="both",
-    )
-
     ld.add_action(robot_state_publisher)
-    ld.add_action(controller_manager)
 
     return ld
