@@ -58,17 +58,12 @@ def read_params(ld : launch.LaunchDescription):
     # Parse the launch options
     return {
         'use_sim_time': use_sim_time,
-        'robot_description_path': os.path.join(get_package_share_directory('summit_xl_description'), 'robots', 'summit_xls.urdf.xacro'),
+        'robot_description_path': os.path.join(get_package_share_directory('summit_xl_description'), 'robots', 'summit_xl.urdf.xacro'),
         'robot_id': robot_id,
         'controllers_file': controllers_file,
     }
 
-def generate_launch_description():
-
-    ld = launch.LaunchDescription()
-
-    params = read_params(ld)
-
+def get_robot_description(params):
     config_file_rewritten = RewrittenYaml(
         source_file=params['controllers_file'],
         param_rewrites={},
@@ -91,6 +86,17 @@ def generate_launch_description():
     # Create parameter
     robot_description_param = launch_ros.descriptions.ParameterValue(robot_description_content, value_type=str)
 
+    return robot_description_param, config_file_rewritten
+
+
+def generate_launch_description():
+
+    ld = launch.LaunchDescription()
+
+    params = read_params(ld)
+
+    robot_description_param, config_controllers = get_robot_description(params)
+
     robot_state_publisher = launch_ros.actions.Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -104,6 +110,16 @@ def generate_launch_description():
         }],
     )
 
+    robot_description = {"robot_description": robot_description_param}
+
+    controller_manager = launch_ros.actions.Node(
+        package="controller_manager",
+        executable="ros2_control_node",
+        parameters=[robot_description, config_controllers],
+        output="both",
+    )
+
     ld.add_action(robot_state_publisher)
+    ld.add_action(controller_manager)
 
     return ld

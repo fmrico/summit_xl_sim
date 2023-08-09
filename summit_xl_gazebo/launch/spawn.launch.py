@@ -103,6 +103,7 @@ def generate_launch_description():
       'robot_id': params['robot_id'],
     }.items(),
   )
+
   spawner = launch_ros.actions.Node(
     package='gazebo_ros',
     executable='spawn_entity.py',
@@ -125,6 +126,8 @@ def generate_launch_description():
     executable="spawner",
     arguments=["joint_state_broadcaster", "--controller-manager", ["/", params['namespace'], "/controller_manager"]],
   )
+
+
 
   ld.add_action(launch.actions.GroupAction(actions=[
     namespace,
