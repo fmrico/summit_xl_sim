@@ -58,7 +58,7 @@ def read_params(ld : launch.LaunchDescription):
     # Parse the launch options
     return {
         'use_sim_time': use_sim_time,
-        'robot_description_path': os.path.join(get_package_share_directory('summit_xl_description'), 'robots', 'summit_xl.urdf.xacro'),
+        'robot_description_path': os.path.join(get_package_share_directory('summit_xl_description'), 'robots', 'summit_xls_icclab.urdf.xacro'),
         'robot_id': robot_id,
         'controllers_file': controllers_file,
     }
