@@ -4,7 +4,7 @@ project(summit_xl_gazebo)
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY launch worlds config
+  DIRECTORY launch worlds config maps
   DESTINATION share/${PROJECT_NAME}
 )
 

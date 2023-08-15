@@ -158,7 +158,7 @@ def generate_launch_description():
       'robot_id': params['robot_id'],
       'namespace': params['namespace'],
       'pos_x': '1.0',
-      'pos_y': '1.0',
+      'pos_y': '-2.0',
       }.items(),
   ))
 
