@@ -42,6 +42,7 @@ def read_params(ld : launch.LaunchDescription):
   namespace = launch.substitutions.LaunchConfiguration('namespace')
   pos_x = launch.substitutions.LaunchConfiguration('pos_x')
   pos_y = launch.substitutions.LaunchConfiguration('pos_y')
+  pos_z = launch.substitutions.LaunchConfiguration('pos_z')
 
   ld.add_action(launch.actions.DeclareLaunchArgument(
     name='use_sim_time',
@@ -74,12 +75,19 @@ def read_params(ld : launch.LaunchDescription):
     default_value='0.0',
   ))
 
+  ld.add_action(launch.actions.DeclareLaunchArgument(
+    name='pos_z',
+    description='Z position of the robot',
+    default_value='0.0',
+  ))
+
   ret = {
     'use_sim_time': use_sim_time,
     'namespace': namespace,
     'robot_id': robot_id,
     'pos_x': pos_x,
     'pos_y': pos_y,
+    'pos_z': pos_z,
   }
 
   return ret
@@ -112,7 +120,7 @@ def generate_launch_description():
       '-topic', 'robot_description',
       '-x', params['pos_x'],
       '-y', params['pos_y'],
-      '-z', '0.10',
+      '-z', params['pos_z'],
     ],
     output='screen',
   )

@@ -73,7 +73,7 @@ def read_params(ld : launch.LaunchDescription):
   ld.add_action(launch.actions.DeclareLaunchArgument(
     name='world_name',
     description='Name of the world to load',
-    default_value='empty',
+    default_value='simple_uneven_house',
   ))
 
   ld.add_action(launch.actions.DeclareLaunchArgument(
@@ -157,8 +157,9 @@ def generate_launch_description():
       'use_sim_time': params['use_sim_time'],
       'robot_id': params['robot_id'],
       'namespace': params['namespace'],
-      'pos_x': '1.0',
-      'pos_y': '-2.0',
+      'pos_x': '0.0',
+      'pos_y': '0.0',
+      'pos_z': '0.34',
       }.items(),
   ))
 
