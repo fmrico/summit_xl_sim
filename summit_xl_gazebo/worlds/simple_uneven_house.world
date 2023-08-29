@@ -330,7 +330,7 @@
         <projection_type>perspective</projection_type>
       </camera>
     </gui>
-    <plugin name='gridmap' filename='libgazebo_ros_gridmap.so'>
+    <!--plugin name='gridmap' filename='libgazebo_ros_gridmap.so'>
       <ros>
         <namespace>demo</namespace>
       </ros>
@@ -345,6 +345,6 @@
       <min_height>0.2</min_height>
       <max_height>1.5</max_height>
       <resolution>0.1</resolution>
-    </plugin>
+    </plugin-->
   </world>
 </sdf>
